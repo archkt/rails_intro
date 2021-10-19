@@ -22,8 +22,8 @@ class MoviesController < ApplicationController
     
     #render
     @movies = Movie.where(rating: @ratings_to_show.keys).order(@sort_by)
-    @bg_release_date = @sort_by=='release_date' ? "bg-warning" : ""
-    @bg_title = @sort_by=='title' ? "bg-warning" : ""    
+    @bg_release_date = @sort_by=='release_date' ? /\bhilite\b/ : ""
+    @bg_title = @sort_by=='title' ? /\bhilite\b/ : ""    
     
   end
 
