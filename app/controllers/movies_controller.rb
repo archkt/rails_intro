@@ -7,14 +7,23 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @sort_by = params[:sort_by]
+    @sort_by = session[:sort_by] || params[:sort_by]
     @all_ratings = Movie.all_ratings
     ratings_hash = Hash[*@all_ratings.collect {|rating| [rating, 1]}.flatten]
-    @ratings_to_show = params[:ratings] || ratings_hash
-    @movies = Movie.where(rating: @ratings_to_show.keys).order(@sort_by)
+    @ratings_to_show = session[:ratings] || params[:ratings] || ratings_hash
     
+    #retrieve session
+    if params[:sort_by] != session[:sort_by]
+      session[:sort_by] = @sort_by
+    end
+    if params[:ratings] != session[:ratings]
+      session[:ratings] = @ratings_to_show
+    end
+    
+    #render
+    @movies = Movie.where(rating: @ratings_to_show.keys).order(@sort_by)
     @bg_release_date = @sort_by=='release_date' ? "bg-warning" : ""
-    @bg_title = @sort_by=='title' ? "bg-warning" : ""
+    @bg_title = @sort_by=='title' ? "bg-warning" : ""    
     
   end
 
