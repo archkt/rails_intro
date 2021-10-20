@@ -15,15 +15,20 @@ class MoviesController < ApplicationController
     #retrieve session
     if params[:sort_by] != session[:sort_by]
       session[:sort_by] = @sort_by
+      redirect_to movies_path(:ratings => @ratings_to_show, :sort_by => @sort_by)
+      return
     end
     if params[:ratings] != session[:ratings]
       session[:ratings] = @ratings_to_show
+      redirect_to movies_path(:ratings => @ratings_to_show, :sort_by => @sort_by)
+      return
     end
     
     #render
     @movies = Movie.where(rating: @ratings_to_show.keys).order(@sort_by)
     @bg_release_date = @sort_by=='release_date' ? 'hilite' : ""
     @bg_title = @sort_by=='title' ? 'hilite' : ""    
+    
     
   end
 
