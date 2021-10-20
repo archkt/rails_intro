@@ -14,6 +14,6 @@
  *= require_self
  */
 
-#movies th.hilite {
+.hilite {
   background-color: yellow;
 }
